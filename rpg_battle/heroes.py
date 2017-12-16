@@ -110,25 +110,17 @@ class Hero(object):
     def level_up(self, **kwargs):
         self.xp = self.xp - self.xp_for_next_level()
         self.level += 1
-            
+        
         for key, value in kwargs.items():
-                if key == 'strength' and value >= 0:
-                    self.strength += value + 1
-                elif key == 'strength' and value < 0:
-                    self.strength += 1
-                if key == 'intelligence' and value >= 0:
-                    self.intelligence += value + 1
-                elif key == 'intelligence' and value < 0:
-                    self.intelligence += 1
-                if key == 'constitution' and value >= 0:
-                    self.constitution += value + 1
-                elif key == 'constitution' and value < 0:
-                    self.constitution += 1
-                if key == 'speed' and value >= 0:
-                    self.speed += value + 1
-                elif key == 'speed' and value < 0:
-                    self.speed += 1
-                    
+            current_stat_value = getattr(self, key)
+            new_stat_value = current_stat_value
+            if value >= 0:
+                new_stat_value += value + 1
+            else:
+                new_stat_value += 1
+            setattr(self, key, new_stat_value)
+                
+                
         self.maxhp += int(.5 * self.constitution)
         self.maxmp += int(.5 * self.intelligence)
         self.hp = self.maxhp
